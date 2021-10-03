@@ -2,7 +2,7 @@ clear;
 [reconstructed_image,square_error,mean_error,max_error] = mosaic_task(false);
 imshow(reconstructed_image,[]);
 figure;
-imagesc(uint8(square_error),[]);
+imagesc(uint8(square_error));
 colorbar
 path = "data";
 file_list = dir(path);

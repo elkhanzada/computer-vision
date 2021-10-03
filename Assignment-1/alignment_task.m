@@ -26,8 +26,8 @@ function [reconstructed_image,best_ncc_1,best_ncc_2,best_i_1,best_j_1,best_i_2,b
             %[ypeak_2,xpeak_2] = find(norm_2==max(norm_2(:)));
             %max_score_1 = max(norm_1(:));
             %max_score_2 = max(norm_2(:));
-            max_score_1 = normcross(shift_1,third);
-            max_score_2 = normcross(shift_2,third);
+            max_score_1 = normcross(third,shift_1);
+            max_score_2 = normcross(third,shift_2);
             if best_ncc_1 < max_score_1
                 best_ncc_1 = max_score_1;
                 best_i_1 = i;

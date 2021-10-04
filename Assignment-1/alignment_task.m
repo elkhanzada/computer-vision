@@ -20,12 +20,6 @@ function [reconstructed_image,best_ncc_1,best_ncc_2,best_i_1,best_j_1,best_i_2,b
         for j = -range:range
             shift_1=circshift(first,[i j]);
             shift_2=circshift(second,[i j]);
-            %norm_1 = normxcorr2(shift_1,third);
-            %norm_2 = normxcorr2(shift_2,third);
-            %[ypeak_1,xpeak_1] = find(norm_1==max(norm_1(:)));
-            %[ypeak_2,xpeak_2] = find(norm_2==max(norm_2(:)));
-            %max_score_1 = max(norm_1(:));
-            %max_score_2 = max(norm_2(:));
             max_score_1 = normcross(third,shift_1);
             max_score_2 = normcross(third,shift_2);
             if best_ncc_1 < max_score_1
@@ -37,8 +31,7 @@ function [reconstructed_image,best_ncc_1,best_ncc_2,best_i_1,best_j_1,best_i_2,b
                 best_ncc_2 = max_score_2;
                 best_i_2 = i;
                 best_j_2 = j;
-            end
-                
+            end    
         end
     end
     blue_channel = circshift(blue_channel,[best_i_1,best_j_1,]);

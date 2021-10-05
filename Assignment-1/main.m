@@ -3,8 +3,10 @@ clear;
 % If true then weighted average filter will be used, otherwise average
 % filter.
 [reconstructed_image,square_error,mean_error,max_error] = mosaic_task(false);
-imshow(reconstructed_image,[]);
-figure;imagesc(uint8(square_error));
+disp("Mean error - "+mean_error);
+disp("Max error -"+max_error);
+imwrite(reconstructed_image,"good_image.png");
+imagesc(uint8(square_error));
 colorbar
 
 %% Task 4,5
@@ -15,7 +17,8 @@ for i=3:length(file_list)
     disp(file_list(i).name);
     disp("blue channel - " + best_ncc_1 + ",["+x1+" "+y1+"]")
     disp("green channel - " + best_ncc_2 + ",["+x2+" "+y2+"]")
-    figure;imshow(image,[]);
+    name = split(file_list(i).name,".");
+    imwrite(image,name(1)+".png");
 end
 
 %% Bonus task (Multiscale)
@@ -26,6 +29,6 @@ for i=3:length(file_list)
     disp(file_list(i).name);
     disp("blue channel - " + best_ncc_1 + ",["+x1+" "+y1+"]")
     disp("green channel - " + best_ncc_2 + ",["+x2+" "+y2+"]")
-    figure;imshow(image,[]);
+    name = split(file_list(i).name,".");
+    imwrite(image,name(1)+".png");
 end
-

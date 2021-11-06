@@ -1,7 +1,0 @@
-function [image] = feature_detection(path)
-    image = imread(path);
-    gaussian = fspecial("gaussian",5,0.5);
-    [gx,gy] = gradient(gaussian);
-    image_x = filter2(gx,image);
-    image_y = filter2(gy,image);
-    image_xx = image_x.^2

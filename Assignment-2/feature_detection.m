@@ -1,4 +1,4 @@
-function [vec_before,vec_after,image_xx,image_xy,image_yy] = feature_detection(path,n,k,threshold)
+function [vec_before,vec_after,image_xx,image_xy,image_yy] = feature_detection(path,n,k,threshold,task123)
     image = imread(path);
     if numel(size(image))==3
       image = im2double(rgb2gray(image));
@@ -21,8 +21,8 @@ function [vec_before,vec_after,image_xx,image_xy,image_yy] = feature_detection(p
     image_xy = filter2(gaussian,image_xy);
     corners = zeros(h,w);
     points = 0;
-    for i = 1+n:h-2*n
-        for j = 1+n:w-2*n
+    for i = 1+2*n:h-2*n
+        for j = 1+2*n:w-2*n
             patch_xx = image_xx(i-n:i+n,j-n:j+n);
             patch_xy = image_xy(i-n:i+n,j-n:j+n);
             patch_yy = image_yy(i-n:i+n,j-n:j+n);
@@ -38,11 +38,15 @@ function [vec_before,vec_after,image_xx,image_xy,image_yy] = feature_detection(p
     disp(points);
     temp = corners;
     strongest = zeros(h,w);
-    for s = 1:1000
-        [maxim,id] = max(temp(:));
-        [i,j] = ind2sub(size(temp),id);
-        temp(i,j)=-Inf;
-        strongest(i,j) = maxim;
+    if task123
+        for s = 1:1000
+            [maxim,id] = max(temp(:));
+            [i,j] = ind2sub(size(temp),id);
+            temp(i,j)=-Inf;
+            strongest(i,j) = maxim;
+        end
+    else
+        strongest = corners;
     end
     before_nonmax = strongest;
     [row_before, col_before] = find(before_nonmax > 0);

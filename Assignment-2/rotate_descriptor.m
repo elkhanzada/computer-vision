@@ -1,6 +1,13 @@
 function [ncc_scores,ssd_scores] = rotate_descriptor(path_1,path_2,vec1,vec2,n,image_xx_1,image_xy_1,image_yy_1,image_xx_2,image_xy_2,image_yy_2)
-    image_1 = im2double(imread(path_1));
-    image_2 = im2double(imread(path_2));
+    image_1 = imread(path_1);
+    image_2 = imread(path_2);
+    if numel(size(image_1))==3
+      image_1 = im2double(rgb2gray(image_1));
+      image_2 = im2double(rgb2gray(image_2));
+    else
+       image_1 = im2double(image_1);
+       image_2 = im2double(image_2);
+    end
     ncc_scores = zeros(size(vec1,1),size(vec2,1));
     ssd_scores = zeros(size(vec1,1),size(vec2,1));
     x1 = vec1(:,2);

@@ -21,6 +21,7 @@ function [vec_before,vec_after,image_xx,image_xy,image_yy] = feature_detection(p
     image_xy = filter2(gaussian,image_xy);
     corners = zeros(h,w);
     points = 0;
+    % Construct H tensor and find corners
     for i = 1+2*n:h-2*n
         for j = 1+2*n:w-2*n
             patch_xx = image_xx(i-n:i+n,j-n:j+n);
@@ -29,6 +30,8 @@ function [vec_before,vec_after,image_xx,image_xy,image_yy] = feature_detection(p
             H = [sum(patch_xx(:)) sum(patch_xy(:)); 
                 sum(patch_xy(:)) sum(patch_yy(:))];
             R = det(H) - k*trace(H)^2;
+            
+            % Filter out based on threshold
             if R > threshold
                corners(i,j) = R;
                points=points+1;
@@ -51,17 +54,17 @@ function [vec_before,vec_after,image_xx,image_xy,image_yy] = feature_detection(p
     before_nonmax = strongest;
     [row_before, col_before] = find(before_nonmax > 0);
     vec_before = [col_before(:),row_before(:)];
-    binary_window = fspecial('disk',10);
-    %strongest = filter2(binary_window,strongest);
     strongest_final = zeros(h,w);
+    window = n*2;
+    
+    % Maxima suppression
     for s = 1:size(row_before,1)
-        lr = row_before(s)-10;
-        rr = row_before(s)+10;
-        lc = col_before(s)-10;
-        rc = col_before(s)+10;
+        lr = row_before(s)-window;
+        rr = row_before(s)+window;
+        lc = col_before(s)-window;
+        rc = col_before(s)+window;
         [left_row,right_row,left_col,right_col] = index_checker(lr,rr,lc,rc,h,w);
         slice = strongest(left_row:right_row, left_col:right_col);
-        %slice = filter2(binary_window,slice);
         cur = strongest(row_before(s),col_before(s));
         [maxim,~] = max(slice(:));
         if cur >= maxim

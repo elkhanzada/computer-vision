@@ -8,7 +8,8 @@ A=[
 -x3  -y3  -1   0    0    0   x3*xp3   y3*xp3   xp3;
  0    0    0 -x3   -y3  -1   x3*yp3   y3*yp3   yp3;
 -x4  -y4   -1  0    0    0   x4*xp4   y4*xp4   xp4;
- 0    0    0  -x4  -y4  -1   x4*yp4   y4*yp4   yp4];
+ 0    0    0  -x4  -y4  -1   x4*yp4   y4*yp4   yp4
+ ];
 [~,~,V] = svd(A);
 H=V(:,end);
 H=reshape(H,3,3);

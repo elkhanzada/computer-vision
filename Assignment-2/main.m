@@ -59,10 +59,10 @@ I2 = imread(path_2);
 [new_vec1,new_vec2] = get_matched_coords(vec1,vec2,im1_matches,im2_matches);
 [o1,o2,o3] = ransac_model(new_vec1,new_vec2,663);
 tform = projective2d(o2);
-warped = imwarp(I1,tform);
-new_image = zeros(780,900,3);
-new_image(1:size(warped,1),1:size(warped,2),1) = warped;
-new_image(1:size(I2,1),1:size(I2,2),2) = I2;
+warped = imwarp(I1,tform,"OutputView",imref2d(size(I1)));
+new_image = zeros(size(I1,1),size(I2,2),3);
+new_image(:,:,1) = warped;
+new_image(:,:,2) = I2;
 imwrite(uint8(new_image),"outputs/task4.png");
 %}
 %% Task 5

@@ -13,4 +13,5 @@ A=[
 [~,~,V] = svd(A);
 H=V(:,end);
 H=reshape(H,3,3);
+H=H/H(3,3);
 end

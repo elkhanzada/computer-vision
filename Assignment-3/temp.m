@@ -1,0 +1,1 @@
+openExample('vision/ReconstructA3DSceneExample')

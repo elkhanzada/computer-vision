@@ -7,6 +7,7 @@ from PIL import Image
 import numpy as np
 import pytesseract
 
+
 class ModernLenet(nn.Module):
     def __init__(self, num_classes=10):
         super().__init__()
@@ -121,7 +122,7 @@ def check_four(path):
     net.eval()
     transform = transforms.Compose([
         transforms.ToTensor(),
-        transforms.Resize((28,28))
+        transforms.Resize((28, 28))
     ])
     net.to(torch.device("cpu"))
     red = crop_image(path)
@@ -132,15 +133,17 @@ def check_four(path):
     pred = outputs.argmax(dim=1, keepdim=True)
     print(pred)
 
+
 def simple_way(path):
     img = cv2.imread(path)
-    red = img[:,:,2]
+    red = img[:, :, 2]
     custom_config = r'--oem 3 --psm 6'
     res = pytesseract.image_to_string(red, config=custom_config)
     if '4' in res:
         print('alarm')
     else:
         pass
+
 
 if __name__ == '__main__':
     simple_way("images/image2.png")
